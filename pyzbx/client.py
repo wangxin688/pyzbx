@@ -322,8 +322,8 @@ class _Alert(ZbxGenericGet[sc.AlertGet]):
 
 @singleton
 class _ApiInfo(ZbxBase):
-    def version(self) -> str | None:
-        return rpc(self.client, f"{self.object_name}.version")
+    def version(self) -> str:
+        return rpc(self.client, f"{self.object_name}.version", [])
 
 
 @singleton

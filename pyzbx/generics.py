@@ -96,7 +96,7 @@ class ZbxGenericUr(ZbxBase, Generic[_GetT, _UpdateT]):
         return rpc(self.client, f"{self.object_name}.update", data.model_dump(exclude_unset=True), self.id_)
 
 
-def rpc(client: Client, method: str, params: _ParamsT, id_: int | None = 1) -> int | None:
+def rpc(client: Client, method: str, params: _ParamsT, id_: int | None = 1) -> Any:
     payload = {"jsonrpc": "2.0", "method": method, "params": params, "id": id_}
     r = client.post(json=payload)
     r.raise_for_status()

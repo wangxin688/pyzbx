@@ -35,3 +35,9 @@ class CommonGet(BaseModel):
     sortfield: str | list[str]
     sortorder: str | list[str]
     start_search: bool | None = Field(default=None, alias="startSearch")
+
+
+class Tag(BaseModel):
+    tag: str
+    value: str
+    operator: int
