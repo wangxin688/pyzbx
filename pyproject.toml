@@ -42,6 +42,7 @@ fixable = ["ALL"]
 
 [tool.ruff.extend-per-file-ignores]
 "__init__.py" = ["F403"]
+"pyzbx/schemas/*.py" = ["N815"]
 
 [tool.black]
 line-length = 120

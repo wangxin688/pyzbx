@@ -1,7 +1,7 @@
 from typing import Any
 
 
-class CrendentialMissingError(Exception):
+class CredentialMissingError(Exception):
     pass
 
 

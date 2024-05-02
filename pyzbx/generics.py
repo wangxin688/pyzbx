@@ -1,4 +1,4 @@
-from typing import Generic, TypedDict, TypeVar
+from typing import Any, Generic, TypedDict, TypeVar
 
 from httpx import Client
 from pydantic import BaseModel
@@ -12,7 +12,7 @@ _MassRemoveT = TypeVar("_MassRemoveT", bound=BaseModel)
 _MassUpdateT = TypeVar("_MassUpdateT", bound=BaseModel)
 _UpdateT = TypeVar("_UpdateT", bound=BaseModel)
 
-_ParamsT = TypeVar("_ParamsT", str, dict, list, int)
+_ParamsT = TypeVar("_ParamsT", str, dict[str, Any], list[int], int)
 
 
 class ZbxCreateResponse(TypedDict):
@@ -33,70 +33,70 @@ class ZbxBase:
 class ZbxGenericBatch(ZbxBase, Generic[_CreateT, _GetT, _MassAddT, _MassRemoveT, _MassUpdateT, _UpdateT]):
     def create(self, data: _CreateT) -> int | None:
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.create", data.model_dump(exclude_unset=True), self.id_)
+        return rpc(self.client, f"{self.object_name}.create", data.model_dump(exclude_unset=True), self.id_)
 
     def get(self, data: _GetT) -> int | None:
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.get", data.model_dump(exclude_unset=True), self.id_)
+        return rpc(self.client, f"{self.object_name}.get", data.model_dump(exclude_unset=True), self.id_)
 
-    def mass_add(self, data: _MassAddT) -> int | None:
+    def massadd(self, data: _MassAddT) -> int | None:
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.massadd", data.model_dump(exclude_unset=True), self.id_)
+        return rpc(self.client, f"{self.object_name}.massadd", data.model_dump(exclude_unset=True), self.id_)
 
-    def mass_remove(self, data: _MassRemoveT) -> int | None:
+    def massremove(self, data: _MassRemoveT) -> int | None:
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.massremove", data.model_dump(exclude_unset=True), self.id_)
+        return rpc(self.client, f"{self.object_name}.massremove", data.model_dump(exclude_unset=True), self.id_)
 
-    def mass_update(self, data: _MassUpdateT) -> int | None:
+    def massupdate(self, data: _MassUpdateT) -> int | None:
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.massupdate", data.model_dump(exclude_unset=True), self.id_)
+        return rpc(self.client, f"{self.object_name}.massupdate", data.model_dump(exclude_unset=True), self.id_)
 
     def update(self, data: _UpdateT) -> int | None:
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.update", data.model_dump(exclude_unset=True), self.id_)
+        return rpc(self.client, f"{self.object_name}.update", data.model_dump(exclude_unset=True), self.id_)
 
     def delete(self, data: list[int] | int) -> int | None:
         data = _id_to_list(data)
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.delete", data, self.id_)
+        return rpc(self.client, f"{self.object_name}.delete", data, self.id_)
 
 
 class ZbxGenericCrud(ZbxBase, Generic[_CreateT, _GetT, _UpdateT]):
     def create(self, data: _CreateT) -> int | None:
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.create", data.model_dump(exclude_unset=True), self.id_)
+        return rpc(self.client, f"{self.object_name}.create", data.model_dump(exclude_unset=True), self.id_)
 
     def get(self, data: _GetT) -> int | None:
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.get", data.model_dump(exclude_unset=True), self.id_)
+        return rpc(self.client, f"{self.object_name}.get", data.model_dump(exclude_unset=True), self.id_)
 
     def update(self, data: _UpdateT) -> int | None:
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.update", data.model_dump(exclude_unset=True), self.id_)
+        return rpc(self.client, f"{self.object_name}.update", data.model_dump(exclude_unset=True), self.id_)
 
     def delete(self, data: list[int] | int) -> int | None:
         data = _id_to_list(data)
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.delete", data, self.id_)
+        return rpc(self.client, f"{self.object_name}.delete", data, self.id_)
 
 
 class ZbxGenericGet(ZbxBase, Generic[_GetT]):
     def get(self, data: _GetT) -> int | None:
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.get", data.model_dump(exclude_unset=True), self.id_)
+        return rpc(self.client, f"{self.object_name}.get", data.model_dump(exclude_unset=True), self.id_)
 
 
 class ZbxGenericUr(ZbxBase, Generic[_GetT, _UpdateT]):
     def get(self, data: _GetT) -> int | None:
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.get", data.model_dump(exclude_unset=True), self.id_)
+        return rpc(self.client, f"{self.object_name}.get", data.model_dump(exclude_unset=True), self.id_)
 
     def update(self, data: _UpdateT) -> int | None:
         self.id_ += 1
-        return _rpc(self.client, f"{self.object_name}.update", data.model_dump(exclude_unset=True), self.id_)
+        return rpc(self.client, f"{self.object_name}.update", data.model_dump(exclude_unset=True), self.id_)
 
 
-def _rpc(client: Client, method: str, params: _ParamsT, id_: int | None = 1) -> int | None:
+def rpc(client: Client, method: str, params: _ParamsT, id_: int | None = 1) -> int | None:
     payload = {"jsonrpc": "2.0", "method": method, "params": params, "id": id_}
     r = client.post(json=payload)
     r.raise_for_status()
