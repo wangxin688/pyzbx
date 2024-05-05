@@ -416,7 +416,7 @@ class _HA(ZbxGenericGet[sc.HAGet]):
 
 @singleton
 class _History(ZbxGenericGet[sc.HistoryGet]):
-    def clear(self, data: sc.HistoryClear) -> int | None:
+    def clear(self, data: list[int]) -> int | None:
         ...
 
 

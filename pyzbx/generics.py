@@ -114,8 +114,8 @@ def rpc(client: Client, method: str, params: _ParamsT, id_: int | None = 1) -> A
 
 def _id_to_list(id_: int | list[int]) -> list[int]:
     if isinstance(id_, int):
-        return [id]
-    return id
+        return [id_]
+    return id_
 
 
 def get_id(response: ZbxCreateResponse, object_name: str) -> int:

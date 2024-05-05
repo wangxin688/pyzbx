@@ -23,7 +23,7 @@ class CommonGet(BaseModel):
         description="Return results that do not match the criteria given in the search parameter.",
         alias="excludeSearch",
     )
-    filter: dict[str, Any] | list[dict[str, Any]] = None
+    filter: dict[str, Any] | list[dict[str, Any]] | None = None
     limit: int | None = Field(description="Limit the number of records returned.")
     output: list[str] | None = Field(default="extend", description="Return only the given fields in the result.")
     preserve_keys: bool | None = Field(
